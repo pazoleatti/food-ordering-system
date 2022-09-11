@@ -17,7 +17,6 @@
         <module>order-dataaccess</module>
         <module>order-domain</module>
         <module>order-messaging</module>
-        <module>order-domain/order-applicaion-service</module>
     </modules>
 
     <properties>
