@@ -70,10 +70,9 @@ public class OrderDomainServiceImpl implements OrderDomainService{
         Set<Product> restaurantProducts = new HashSet<>(restaurant.getProducts());
         order.getItems().forEach(orderItem -> {
             Product currentProduct = orderItem.getProduct();
-            if (restaurantProducts.contains(currentProduct)) {
-                currentProduct.updateWithConfirmedNameAndPrice(currentProduct.getName(),
-                        currentProduct.getPrice());
-            }
+            Product restaurantProduct = restaurantProducts.stream().filter(product -> product.equals(currentProduct)).toList().get(0);
+            currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
+                    restaurantProduct.getPrice());
         });
     }
 }
