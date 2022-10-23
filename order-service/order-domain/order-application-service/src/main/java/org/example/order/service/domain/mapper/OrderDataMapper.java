@@ -38,10 +38,11 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public OrderResponseCommand createOrderToOrderResponse(Order order) {
+    public OrderResponseCommand createOrderToOrderResponse(Order order, String message) {
         return OrderResponseCommand.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .message(message)
                 .build();
     }
 
