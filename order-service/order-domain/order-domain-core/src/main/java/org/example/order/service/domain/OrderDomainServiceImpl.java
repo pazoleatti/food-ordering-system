@@ -61,18 +61,18 @@ public class OrderDomainServiceImpl implements OrderDomainService{
 
     private void validateRestaurant(Restaurant restaurant) {
         if(!restaurant.isActive()) {
-            throw new OrderDomainException("Restaurant whith id " + restaurant.getId().getValue()
+            throw new OrderDomainException("Restaurant with id " + restaurant.getId().getValue()
                     + "is currently not active!");
         }
     }
 
     private void setOrderProductInformation(Order order, Restaurant restaurant) {
-        Set<Product> restaurantProducts = new HashSet<>(restaurant.getProducts());
-        order.getItems().forEach(orderItem -> {
+        order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
             Product currentProduct = orderItem.getProduct();
-            Product restaurantProduct = restaurantProducts.stream().filter(product -> product.equals(currentProduct)).toList().get(0);
-            currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
-                    restaurantProduct.getPrice());
-        });
+            if (currentProduct.equals(restaurantProduct)) {
+                currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
+                        restaurantProduct.getPrice());
+            }
+        }));
     }
 }

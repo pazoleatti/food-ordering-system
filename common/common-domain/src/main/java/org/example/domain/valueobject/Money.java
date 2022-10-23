@@ -19,7 +19,7 @@ public class Money {
     }
 
     public boolean isGreaterThanZero() {
-        return amount != null && BigDecimal.ZERO.compareTo(amount) > 0;
+        return amount != null && BigDecimal.ZERO.compareTo(amount) <= 0;
     }
 
     public boolean isGreaterThan(Money money) {
