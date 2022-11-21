@@ -3,7 +3,6 @@ package org.example.kafka.producer;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.example.kafka.config.data.KafkaConfigData;
-import org.example.kafka.config.data.KafkaConsumerConfigData;
 import org.example.kafka.config.data.KafkaProducerConfigData;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
