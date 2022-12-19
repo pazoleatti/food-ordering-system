@@ -1,4 +1,4 @@
-package org.example.aervice.dataaccess.order.entity;
+package org.example.service.dataaccess.order.entity;
 
 import lombok.*;
 import org.example.domain.valueobject.OrderStatus;

@@ -1,8 +1,8 @@
-package org.example.aervice.dataaccess.order.mapper;
+package org.example.service.dataaccess.order.mapper;
 
-import org.example.aervice.dataaccess.order.entity.OrderAddressEntity;
-import org.example.aervice.dataaccess.order.entity.OrderEntity;
-import org.example.aervice.dataaccess.order.entity.OrderItemEntity;
+import org.example.service.dataaccess.order.entity.OrderAddressEntity;
+import org.example.service.dataaccess.order.entity.OrderEntity;
+import org.example.service.dataaccess.order.entity.OrderItemEntity;
 import org.example.domain.valueobject.*;
 import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.entity.OrderItem;

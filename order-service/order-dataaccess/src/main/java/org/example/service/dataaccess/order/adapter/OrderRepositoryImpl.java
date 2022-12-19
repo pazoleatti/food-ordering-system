@@ -1,7 +1,7 @@
-package org.example.aervice.dataaccess.order.adapter;
+package org.example.service.dataaccess.order.adapter;
 
-import org.example.aervice.dataaccess.order.mapper.OrderDataAccessMapper;
-import org.example.aervice.dataaccess.order.repository.OrderJpaRepository;
+import org.example.service.dataaccess.order.mapper.OrderDataAccessMapper;
+import org.example.service.dataaccess.order.repository.OrderJpaRepository;
 import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.ports.output.repository.OrderRepository;
 import org.example.order.service.domain.valueobject.TrackingId;
