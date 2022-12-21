@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@Table(name = "order")
+@Table(name = "orders")
 @Entity
 @EqualsAndHashCode(of = "id")
 public class OrderEntity {
@@ -22,7 +22,7 @@ public class OrderEntity {
     private UUID id;
     private UUID customerId;
     private UUID restaurantId;
-    private UUID trackingID;
+    private UUID trackingId;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

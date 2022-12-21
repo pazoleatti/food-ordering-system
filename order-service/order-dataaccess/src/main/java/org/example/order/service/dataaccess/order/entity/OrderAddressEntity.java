@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@Table(name = "order_addess")
+@Table(name = "order_address")
 @Entity
 @EqualsAndHashCode(of = "id")
 public class OrderAddressEntity {

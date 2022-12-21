@@ -2,7 +2,7 @@ package org.example.order.service.application.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.order.service.domain.dto.create.CreateOrderCommand;
-import org.example.order.service.domain.dto.create.OrderResponseCommand;
+import org.example.order.service.domain.dto.create.CreateOrderResponse;
 import org.example.order.service.domain.dto.track.TrackOrderQuery;
 import org.example.order.service.domain.dto.track.TrackOrderResponse;
 import org.example.order.service.domain.ports.input.service.OrderApplicationService;
@@ -22,12 +22,12 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponseCommand> createOrder(CreateOrderCommand createOrderCommand) {
+    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderCommand createOrderCommand) {
         log.info("Create order for customer: {} at restaurant: {}", createOrderCommand.getCustomerId(),
                 createOrderCommand.getRestaurantId());
-        OrderResponseCommand orderResponseCommand = orderApplicationService.createOrder(createOrderCommand);
-        log.info("Order created with tracking id: {}", orderResponseCommand.getOrderTrackingId());
-        return ResponseEntity.ok(orderResponseCommand);
+        CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
+        log.info("Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
+        return ResponseEntity.ok(createOrderResponse);
     }
 
     @GetMapping("/{trackingId}")

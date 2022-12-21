@@ -3,13 +3,12 @@ package org.example.order.service.domain.mapper;
 import org.example.domain.valueobject.*;
 import org.example.order.service.domain.dto.create.CreateOrderCommand;
 import org.example.order.service.domain.dto.create.OrderAddress;
-import org.example.order.service.domain.dto.create.OrderResponseCommand;
+import org.example.order.service.domain.dto.create.CreateOrderResponse;
 import org.example.order.service.domain.dto.track.TrackOrderResponse;
 import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.entity.OrderItem;
 import org.example.order.service.domain.entity.Product;
 import org.example.order.service.domain.entity.Restaurant;
-import org.example.order.service.domain.valueobject.OrderItemId;
 import org.example.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +37,8 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public OrderResponseCommand createOrderToOrderResponse(Order order, String message) {
-        return OrderResponseCommand.builder()
+    public CreateOrderResponse createOrderToOrderResponse(Order order, String message) {
+        return CreateOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .message(message)

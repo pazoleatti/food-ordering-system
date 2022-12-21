@@ -1,6 +1,5 @@
 package org.example.order.service.domain.dto.create;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class OrderResponseCommand {
+public class CreateOrderResponse {
     @NotNull
     private final UUID orderTrackingId;
     @NotNull

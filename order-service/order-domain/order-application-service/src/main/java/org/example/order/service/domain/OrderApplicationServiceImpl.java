@@ -2,7 +2,7 @@ package org.example.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.order.service.domain.dto.create.CreateOrderCommand;
-import org.example.order.service.domain.dto.create.OrderResponseCommand;
+import org.example.order.service.domain.dto.create.CreateOrderResponse;
 import org.example.order.service.domain.dto.track.TrackOrderQuery;
 import org.example.order.service.domain.dto.track.TrackOrderResponse;
 import org.example.order.service.domain.ports.input.service.OrderApplicationService;
@@ -24,7 +24,7 @@ class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public OrderResponseCommand createOrder(CreateOrderCommand createOrderCommand) {
+    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
         return orderCreateCommandHandler.createOrder(createOrderCommand);
     }
 

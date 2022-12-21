@@ -4,7 +4,7 @@ import org.example.domain.valueobject.*;
 import org.example.order.service.domain.dto.create.CreateOrderCommand;
 import org.example.order.service.domain.dto.create.OrderAddress;
 import org.example.order.service.domain.dto.create.OrderItem;
-import org.example.order.service.domain.dto.create.OrderResponseCommand;
+import org.example.order.service.domain.dto.create.CreateOrderResponse;
 import org.example.order.service.domain.entity.Customer;
 import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.entity.Product;
@@ -145,10 +145,10 @@ public class OrderApplicationServiceTest {
     }
     @Test
     public void testCreateOrder() {
-        OrderResponseCommand orderResponseCommand = orderApplicationService.createOrder(createOrderCommand);
-        assertEquals(OrderStatus.PENDING, orderResponseCommand.getOrderStatus());
-        assertEquals("Order Created Successfully!", orderResponseCommand.getMessage());
-        assertNotNull(orderResponseCommand.getOrderTrackingId());
+        CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
+        assertEquals(OrderStatus.PENDING, createOrderResponse.getOrderStatus());
+        assertEquals("Order Created Successfully!", createOrderResponse.getMessage());
+        assertNotNull(createOrderResponse.getOrderTrackingId());
     }
     @Test
     public void testCreateOrderWithWrongTotalPrice() {
