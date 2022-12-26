@@ -9,10 +9,6 @@
         <module>infrastructure</module>
         <module>customer-service</module>
         <module>payment-service</module>
-        <module>payment-service/payment-container</module>
-        <module>payment-service/payment-dataaccess</module>
-        <module>payment-service/payment-domain</module>
-        <module>payment-service/payment-messaging</module>
     </modules>
 
     <parent>
@@ -60,6 +56,11 @@
             <dependency>
                 <groupId>org.example</groupId>
                 <artifactId>order-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>payment-domain-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
