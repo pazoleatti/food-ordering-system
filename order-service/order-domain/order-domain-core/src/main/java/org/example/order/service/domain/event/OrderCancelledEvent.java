@@ -1,11 +1,21 @@
 package org.example.order.service.domain.event;
 
+import org.example.domain.event.publisher.DomainEventPublisher;
 import org.example.order.service.domain.entity.Order;
 
 import java.time.ZonedDateTime;
 
 public class OrderCancelledEvent extends OrderEvent {
-    public OrderCancelledEvent(Order order, ZonedDateTime createdAt) {
+
+    private final DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher;
+
+    public OrderCancelledEvent(Order order, ZonedDateTime createdAt, DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher) {
         super(order, createdAt);
+        this.orderCancelledEventDomainEventPublisher = orderCancelledEventDomainEventPublisher;
+    }
+
+    @Override
+    public void fire() {
+        orderCancelledEventDomainEventPublisher.publish(this);
     }
 }
