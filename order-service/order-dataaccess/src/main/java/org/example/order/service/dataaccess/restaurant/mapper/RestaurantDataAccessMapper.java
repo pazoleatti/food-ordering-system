@@ -1,12 +1,12 @@
 package org.example.order.service.dataaccess.restaurant.mapper;
 
+import org.example.dataaccess.restaurant.entity.RestaurantEntity;
+import org.example.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import org.example.domain.valueobject.Money;
 import org.example.domain.valueobject.ProductId;
 import org.example.domain.valueobject.RestaurantId;
-import org.example.order.service.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import org.example.order.service.domain.entity.Product;
 import org.example.order.service.domain.entity.Restaurant;
-import org.example.order.service.dataaccess.restaurant.entity.RestaurantEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

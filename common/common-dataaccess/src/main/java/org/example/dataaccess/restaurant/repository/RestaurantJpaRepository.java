@@ -1,7 +1,7 @@
-package org.example.order.service.dataaccess.restaurant.repository;
+package org.example.dataaccess.restaurant.repository;
 
-import org.example.order.service.dataaccess.restaurant.entity.RestaurantEntity;
-import org.example.order.service.dataaccess.restaurant.entity.RestaurantEntityId;
+import org.example.dataaccess.restaurant.entity.RestaurantEntity;
+import org.example.dataaccess.restaurant.entity.RestaurantEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,10 +1,10 @@
-package org.example.order.service.dataaccess.restaurant.adapter;
+package org.example.restaurant.service.dataaccess.restaurant.adapter;
 
 import org.example.dataaccess.restaurant.entity.RestaurantEntity;
 import org.example.dataaccess.restaurant.repository.RestaurantJpaRepository;
-import org.example.order.service.domain.entity.Restaurant;
-import org.example.order.service.domain.ports.output.repository.RestaurantRepository;
-import org.example.order.service.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
+import org.example.restaurant.service.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
+import org.example.restaurant.service.domain.entity.Restaurant;
+import org.example.restaurant.service.domain.ports.output.repository.RestaurantRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.example.order.service.dataaccess.restaurant.exception;
+package org.example.dataaccess.restaurant.exception;
 
 public class RestaurantDataAccessException extends RuntimeException {
     public RestaurantDataAccessException(String message) {

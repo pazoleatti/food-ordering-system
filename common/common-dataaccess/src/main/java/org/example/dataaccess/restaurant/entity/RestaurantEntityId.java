@@ -1,4 +1,4 @@
-package org.example.order.service.dataaccess.restaurant.entity;
+package org.example.dataaccess.restaurant.entity;
 
 import lombok.*;
 
