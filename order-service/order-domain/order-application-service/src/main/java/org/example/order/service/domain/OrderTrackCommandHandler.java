@@ -9,6 +9,7 @@ import org.example.order.service.domain.mapper.OrderDataMapper;
 import org.example.order.service.domain.ports.output.repository.OrderRepository;
 import org.example.order.service.domain.valueobject.TrackingId;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ public class OrderTrackCommandHandler {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery) {
         Optional<Order> orderResult =
                 orderRepository.findByTrackingId(new TrackingId(trackOrderQuery.getOrderTrackingId()));
