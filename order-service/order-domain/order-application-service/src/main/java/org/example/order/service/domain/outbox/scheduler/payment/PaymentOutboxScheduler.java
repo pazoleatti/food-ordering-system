@@ -43,7 +43,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
                             outboxMessage.getId().toString()).collect(Collectors.joining(",")));
             outboxMessages.forEach(outboxMessage ->
                     paymentRequestMessagePublisher.publish(outboxMessage, this::updateOutboxStatus));
-            log.info("{} PrderPaymentOutboxMessage sent to message bus!", outboxMessages.size());
+            log.info("{} OrderPaymentOutboxMessage sent to message bus!", outboxMessages.size());
         }
 
     }

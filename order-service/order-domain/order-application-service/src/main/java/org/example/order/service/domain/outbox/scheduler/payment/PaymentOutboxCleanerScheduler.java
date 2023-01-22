@@ -7,6 +7,7 @@ import org.example.outbox.OutboxStatus;
 import org.example.saga.SagaStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
