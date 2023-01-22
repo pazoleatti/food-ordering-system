@@ -10,6 +10,7 @@
         <module>customer-service</module>
         <module>payment-service</module>
         <module>restaurant-service</module>
+        <module>infrastructure/outbox</module>
     </modules>
 
     <parent>
@@ -37,6 +38,11 @@
             <dependency>
                 <groupId>org.example</groupId>
                 <artifactId>saga</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>outbox</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
