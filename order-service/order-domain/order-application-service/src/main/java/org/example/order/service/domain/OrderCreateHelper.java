@@ -8,7 +8,6 @@ import org.example.order.service.domain.entity.Restaurant;
 import org.example.order.service.domain.event.OrderCreatedEvent;
 import org.example.order.service.domain.exception.OrderDomainException;
 import org.example.order.service.domain.mapper.OrderDataMapper;
-import org.example.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import org.example.order.service.domain.ports.output.repository.CustomerRepository;
 import org.example.order.service.domain.ports.output.repository.OrderRepository;
 import org.example.order.service.domain.ports.output.repository.RestaurantRepository;

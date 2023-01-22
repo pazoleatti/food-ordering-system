@@ -2,9 +2,11 @@ package org.example.order.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.valueobject.OrderId;
+import org.example.domain.valueobject.OrderStatus;
 import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.exception.OrderNotFoundException;
 import org.example.order.service.domain.ports.output.repository.OrderRepository;
+import org.example.saga.SagaStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -30,5 +32,25 @@ public class OrderSagaHelper {
 
     void saveOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus){
+        switch (orderStatus) {
+            case PAID -> {
+                return SagaStatus.PROCESSING;
+            }
+            case APPROVED -> {
+                return SagaStatus.SUCCEEDED;
+            }
+            case CANCELLING -> {
+                return SagaStatus.COMPENSATING;
+            }
+            case CANCELLED -> {
+                return SagaStatus.COMPENSATED;
+            }
+            default -> {
+                return SagaStatus.STARTED;
+            }
+        }
     }
 }
