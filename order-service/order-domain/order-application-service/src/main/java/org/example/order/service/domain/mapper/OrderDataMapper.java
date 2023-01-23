@@ -9,6 +9,8 @@ import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.entity.OrderItem;
 import org.example.order.service.domain.entity.Product;
 import org.example.order.service.domain.entity.Restaurant;
+import org.example.order.service.domain.event.OrderCreatedEvent;
+import org.example.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import org.example.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
@@ -51,8 +53,18 @@ public class OrderDataMapper {
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(order.getFailureMessages())
                 .build();
-
     }
+
+    public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerId(orderCreatedEvent.getOrder().getCustomerId().getValue().toString())
+                .orderId(orderCreatedEvent.getOrder().getId().getValue().toString())
+                .price(orderCreatedEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCreatedEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+                .build();
+    }
+
     private List<OrderItem> orderItemsToOrderItemEntities(
             List<org.example.order.service.domain.dto.create.OrderItem> items) {
         return items.stream().map(orderItem -> OrderItem.builder()
