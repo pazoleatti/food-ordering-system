@@ -56,6 +56,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
         if (orderPaymentOutboxMessageResponse.isEmpty()) {
             log.info("An outbox message with saga id: {} is already processed!", paymentResponse.getSagaId());
+            return;
         }
 
         OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();
@@ -88,6 +89,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         );
         if (orderPaymentOutboxMessageResponse.isEmpty()) {
             log.info("An outbox message with saga id: {} is already roll backed!", paymentResponse.getSagaId());
+            return;
         }
 
         OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();

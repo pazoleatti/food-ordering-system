@@ -9,6 +9,7 @@ import org.example.order.service.domain.entity.Order;
 import org.example.order.service.domain.entity.OrderItem;
 import org.example.order.service.domain.entity.Product;
 import org.example.order.service.domain.entity.Restaurant;
+import org.example.order.service.domain.event.OrderCancelledEvent;
 import org.example.order.service.domain.event.OrderCreatedEvent;
 import org.example.order.service.domain.event.OrderPaidEvent;
 import org.example.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
@@ -68,6 +69,16 @@ public class OrderDataMapper {
                 .build();
     }
 
+    public OrderPaymentEventPayload orderCancelledEventToOrderPaymentEventPayload(OrderCancelledEvent
+                                                                                          orderCancelledEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerId(orderCancelledEvent.getOrder().getCustomerId().getValue().toString())
+                .orderId(orderCancelledEvent.getOrder().getId().getValue().toString())
+                .price(orderCancelledEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCancelledEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
+                .build();
+    }
     public OrderApprovalEventPayload orderPaidEventToOrderApprovalEventPayload(OrderPaidEvent orderPaidEvent) {
         return OrderApprovalEventPayload.builder()
                 .orderId(orderPaidEvent.getOrder().getId().getValue().toString())
