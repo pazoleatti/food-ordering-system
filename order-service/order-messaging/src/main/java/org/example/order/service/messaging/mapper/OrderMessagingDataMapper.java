@@ -3,10 +3,7 @@ package org.example.order.service.messaging.mapper;
 import org.example.kafka.order.avro.model.*;
 import org.example.order.service.domain.dto.message.PaymentResponse;
 import org.example.order.service.domain.dto.message.RestaurantApprovalResponse;
-import org.example.order.service.domain.entity.Order;
-import org.example.order.service.domain.event.OrderCancelledEvent;
-import org.example.order.service.domain.event.OrderCreatedEvent;
-import org.example.order.service.domain.event.OrderPaidEvent;
+import org.example.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
 import org.example.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +54,26 @@ public class OrderMessagingDataMapper {
                 .setPrice(orderPaymentEventPayload.getPrice())
                 .setCreatedAt(orderPaymentEventPayload.getCreatedAt().toInstant())
                 .setPaymentOrderStatus(PaymentOrderStatus.valueOf(orderPaymentEventPayload.getPaymentOrderStatus()))
+                .build();
+    }
+
+    public RestaurantApprovalRequestAvroModel
+    orderApprovalEventToRestaurantApprovalRequestAvroModel(String sagaId, OrderApprovalEventPayload
+            orderApprovalEventPayload) {
+        return RestaurantApprovalRequestAvroModel.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setOrderId(orderApprovalEventPayload.getOrderId())
+                .setRestaurantId(orderApprovalEventPayload.getRestaurantId())
+                .setRestaurantOrderStatus(RestaurantOrderStatus
+                        .valueOf(orderApprovalEventPayload.getRestaurantOrderStatus()))
+                .setProducts(orderApprovalEventPayload.getProducts().stream().map(orderApprovalEventProduct ->
+                        org.example.kafka.order.avro.model.Product.newBuilder()
+                                .setId(orderApprovalEventProduct.getId())
+                                .setQuantity(orderApprovalEventProduct.getQuantity())
+                                .build()).collect(Collectors.toList()))
+                .setPrice(orderApprovalEventPayload.getPrice())
+                .setCreatedAt(orderApprovalEventPayload.getCreatedAt().toInstant())
                 .build();
     }
 }
