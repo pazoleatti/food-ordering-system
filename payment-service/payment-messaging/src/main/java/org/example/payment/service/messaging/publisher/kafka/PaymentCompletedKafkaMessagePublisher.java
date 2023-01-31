@@ -1,18 +1,18 @@
 package org.example.payment.service.messaging.publisher.kafka;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.domain.event.publisher.DomainEventPublisher;
 import org.example.kafka.order.avro.model.PaymentResponseAvroModel;
 import org.example.kafka.producer.KafkaMessageHelper;
 import org.example.kafka.producer.service.KafkaProducer;
 import org.example.payment.service.domain.config.PaymentServiceConfigData;
 import org.example.payment.service.domain.event.PaymentCompletedEvent;
-import org.example.payment.service.domain.ports.output.message.publisher.PaymentCompletedMessagePublisher;
 import org.example.payment.service.messaging.mapper.PaymentMessagingDataMapper;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class PaymentCompletedKafkaMessagePublisher implements PaymentCompletedMessagePublisher {
+public class PaymentCompletedKafkaMessagePublisher implements DomainEventPublisher<PaymentCompletedEvent> {
 
     private final PaymentMessagingDataMapper paymentMessagingDataMapper;
     private final KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer;
