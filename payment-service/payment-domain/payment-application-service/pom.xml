@@ -18,6 +18,10 @@
         </dependency>
         <dependency>
             <groupId>org.example</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
             <artifactId>payment-domain-core</artifactId>
         </dependency>
         <dependency>
