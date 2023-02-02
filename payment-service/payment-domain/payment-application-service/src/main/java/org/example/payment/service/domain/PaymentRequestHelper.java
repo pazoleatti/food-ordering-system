@@ -2,6 +2,8 @@ package org.example.payment.service.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.valueobject.CustomerId;
+import org.example.domain.valueobject.PaymentStatus;
+import org.example.outbox.OutboxStatus;
 import org.example.payment.service.domain.dto.PaymentRequest;
 import org.example.payment.service.domain.entity.CreditEntry;
 import org.example.payment.service.domain.entity.CreditHistory;
@@ -9,6 +11,9 @@ import org.example.payment.service.domain.entity.Payment;
 import org.example.payment.service.domain.event.PaymentEvent;
 import org.example.payment.service.domain.exception.PaymentApplicationServiceException;
 import org.example.payment.service.domain.mapper.PaymentDataMapper;
+import org.example.payment.service.domain.outbox.model.OrderOutboxMessage;
+import org.example.payment.service.domain.outbox.scheduler.OrderOutboxHelper;
+import org.example.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
 import org.example.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import org.example.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 import org.example.payment.service.domain.ports.output.repository.PaymentRepository;
@@ -29,21 +34,32 @@ public class PaymentRequestHelper {
     private final PaymentRepository paymentRepository;
     private final CreditEntryRepository creditEntryRepository;
     private final CreditHistoryRepository creditHistoryRepository;
+    private final OrderOutboxHelper orderOutboxHelper;
+    private final PaymentResponseMessagePublisher paymentResponseMessagePublisher;
 
     public PaymentRequestHelper(PaymentDomainService paymentDomainService,
                                 PaymentDataMapper paymentDataMapper,
                                 PaymentRepository paymentRepository,
                                 CreditEntryRepository creditEntryRepository,
-                                CreditHistoryRepository creditHistoryRepository) {
+                                CreditHistoryRepository creditHistoryRepository,
+                                OrderOutboxHelper orderOutboxHelper,
+                                PaymentResponseMessagePublisher paymentResponseMessagePublisher) {
         this.paymentDomainService = paymentDomainService;
         this.paymentDataMapper = paymentDataMapper;
         this.paymentRepository = paymentRepository;
         this.creditEntryRepository = creditEntryRepository;
         this.creditHistoryRepository = creditHistoryRepository;
+        this.orderOutboxHelper = orderOutboxHelper;
+        this.paymentResponseMessagePublisher = paymentResponseMessagePublisher;
     }
 
     @Transactional
     public void persistPayment(PaymentRequest paymentRequest) {
+        if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.COMPLETED)) {
+            log.info("An outbox message with saga id: {} is already saved to database!",
+                    paymentRequest.getSagaId());
+            return;
+        }
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
         Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
         CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
@@ -52,10 +68,20 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent =
                 paymentDomainService.validateAndInitiatePayment(payment, creditEntry, creditHistories, failureMessages);
         persistDbObjects(payment, creditEntry, creditHistories, failureMessages);
+
+        orderOutboxHelper.saveOrderOutboxMessage(paymentDataMapper.paymentEventToOrderEventPayload(paymentEvent),
+                paymentEvent.getPayment().getPaymentStatus(),
+                OutboxStatus.STARTED,
+                UUID.fromString(paymentRequest.getSagaId()));
     }
 
     @Transactional
     public void persistCancelPayment(PaymentRequest paymentRequest) {
+        if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.CANCELLED)) {
+            log.info("An outbox message with saga id: {} is already saved to database!",
+                    paymentRequest.getSagaId());
+            return;
+        }
         log.info("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
         Optional<Payment> paymentResponse = paymentRepository
                 .findByOrderId(UUID.fromString(paymentRequest.getOrderId()));
@@ -71,6 +97,11 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent = paymentDomainService
                 .validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
         persistDbObjects(payment, creditEntry, creditHistories, failureMessages);
+
+        orderOutboxHelper.saveOrderOutboxMessage(paymentDataMapper.paymentEventToOrderEventPayload(paymentEvent),
+                paymentEvent.getPayment().getPaymentStatus(),
+                OutboxStatus.STARTED,
+                UUID.fromString(paymentRequest.getSagaId()));
     }
 
     private CreditEntry getCreditEntry(CustomerId customerId) {
@@ -102,6 +133,18 @@ public class PaymentRequestHelper {
             creditEntryRepository.save(creditEntry);
             creditHistoryRepository.save(creditHistories.get(creditHistories.size() - 1));
         }
+    }
+
+    private boolean publishIfOutboxMessageProcessedForPayment(PaymentRequest paymentRequest,
+                                                              PaymentStatus paymentStatus) {
+        Optional<OrderOutboxMessage> orderOutboxMessage =
+                orderOutboxHelper.getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(UUID.fromString(paymentRequest.getSagaId()),
+                        paymentStatus);
+        if (orderOutboxMessage.isPresent()) {
+            paymentResponseMessagePublisher.publish(orderOutboxMessage.get(), orderOutboxHelper::updateOutboxMessage);
+            return true;
+        }
+        return false;
     }
 
 }
