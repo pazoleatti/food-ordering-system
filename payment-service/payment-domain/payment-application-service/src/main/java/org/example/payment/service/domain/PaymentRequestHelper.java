@@ -10,6 +10,7 @@ import org.example.payment.service.domain.entity.CreditHistory;
 import org.example.payment.service.domain.entity.Payment;
 import org.example.payment.service.domain.event.PaymentEvent;
 import org.example.payment.service.domain.exception.PaymentApplicationServiceException;
+import org.example.payment.service.domain.exception.PaymentNotFoundException;
 import org.example.payment.service.domain.mapper.PaymentDataMapper;
 import org.example.payment.service.domain.outbox.model.OrderOutboxMessage;
 import org.example.payment.service.domain.outbox.scheduler.OrderOutboxHelper;
@@ -87,7 +88,7 @@ public class PaymentRequestHelper {
                 .findByOrderId(UUID.fromString(paymentRequest.getOrderId()));
         if (paymentResponse.isEmpty()) {
             log.error("Payment with order id: {} could not be found!", paymentRequest.getOrderId());
-            throw new PaymentApplicationServiceException("Payment with order id: " +
+            throw new PaymentNotFoundException("Payment with order id: " +
                     paymentRequest.getOrderId() + " could not be found!");
         }
         Payment payment = paymentResponse.get();
