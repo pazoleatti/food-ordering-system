@@ -3,7 +3,8 @@ server:
 
 logging:
   level:
-    org.org.example: DEBUG
+    org.example: DEBUG
+    org.apache.kafka: ERROR
 
 payment-service:
   payment-request-topic-name: payment-request
