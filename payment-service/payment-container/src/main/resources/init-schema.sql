@@ -46,8 +46,8 @@ CREATE TABLE "payment".credit_history
     CONSTRAINT credit_history_pkey PRIMARY KEY (id)
 );
 
-DROP TYPE IF EXISTS outbox_status;
-CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
+/*DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');*/
 
 DROP TABLE IF EXISTS "payment".order_outbox CASCADE;
 

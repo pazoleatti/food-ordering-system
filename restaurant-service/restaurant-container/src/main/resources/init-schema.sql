@@ -64,8 +64,8 @@ ALTER TABLE restaurant.restaurant_products
     ON DELETE RESTRICT
     NOT VALID;
 
-DROP TYPE IF EXISTS outbox_status;
-CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
+/*DROP TYPE IF EXISTS outbox_status;
+CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');*/
 
 DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
 

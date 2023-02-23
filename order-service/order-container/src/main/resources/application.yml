@@ -4,6 +4,8 @@ server:
 logging:
   level:
     org.example: DEBUG
+    io.confluent: error
+    org.apache.kafka: error
 
 order-service:
   payment-request-topic-name: payment-request

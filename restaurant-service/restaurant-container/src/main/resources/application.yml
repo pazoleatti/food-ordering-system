@@ -4,6 +4,8 @@ server:
 logging:
   level:
     org.example: DEBUG
+    io.confluent: error
+    org.apache.kafka: error
 
 restaurant-service:
   restaurant-approval-request-topic-name: restaurant-approval-request
