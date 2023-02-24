@@ -1,6 +1,7 @@
 package org.example.order.service.messaging.mapper;
 
 import org.example.kafka.order.avro.model.*;
+import org.example.order.service.domain.dto.message.CustomerModel;
 import org.example.order.service.domain.dto.message.PaymentResponse;
 import org.example.order.service.domain.dto.message.RestaurantApprovalResponse;
 import org.example.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
@@ -74,6 +75,14 @@ public class OrderMessagingDataMapper {
                                 .build()).collect(Collectors.toList()))
                 .setPrice(orderApprovalEventPayload.getPrice())
                 .setCreatedAt(orderApprovalEventPayload.getCreatedAt().toInstant())
+                .build();
+    }
+    public CustomerModel customerAvroModeltoCustomerModel(CustomerAvroModel customerAvroModel) {
+        return CustomerModel.builder()
+                .id(customerAvroModel.getId())
+                .username(customerAvroModel.getUsername())
+                .firstName(customerAvroModel.getFirstName())
+                .lastName(customerAvroModel.getLastName())
                 .build();
     }
 }

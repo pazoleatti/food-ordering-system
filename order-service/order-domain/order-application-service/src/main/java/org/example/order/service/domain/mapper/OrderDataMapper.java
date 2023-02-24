@@ -4,11 +4,9 @@ import org.example.domain.valueobject.*;
 import org.example.order.service.domain.dto.create.CreateOrderCommand;
 import org.example.order.service.domain.dto.create.OrderAddress;
 import org.example.order.service.domain.dto.create.CreateOrderResponse;
+import org.example.order.service.domain.dto.message.CustomerModel;
 import org.example.order.service.domain.dto.track.TrackOrderResponse;
-import org.example.order.service.domain.entity.Order;
-import org.example.order.service.domain.entity.OrderItem;
-import org.example.order.service.domain.entity.Product;
-import org.example.order.service.domain.entity.Restaurant;
+import org.example.order.service.domain.entity.*;
 import org.example.order.service.domain.event.OrderCancelledEvent;
 import org.example.order.service.domain.event.OrderCreatedEvent;
 import org.example.order.service.domain.event.OrderPaidEvent;
@@ -92,6 +90,13 @@ public class OrderDataMapper {
                 .price(orderPaidEvent.getOrder().getPrice().getAmount())
                 .createdAt(orderPaidEvent.getCreatedAt())
                 .build();
+    }
+
+    public Customer customerModelToCustomer(CustomerModel customerModel) {
+        return new Customer(new CustomerId(UUID.fromString(customerModel.getId())),
+                customerModel.getUsername(),
+                customerModel.getFirstName(),
+                customerModel.getLastName());
     }
 
     private List<OrderItem> orderItemsToOrderItemEntities(
